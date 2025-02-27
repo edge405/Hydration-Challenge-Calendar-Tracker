@@ -222,6 +222,25 @@ const App = () => {
     return currentMonthWeeks;
   };
   
+  // Check if a date has a penalty for a participant and get week compliance
+  const getPenaltyStatusForDate = (dateStr, participant) => {
+    if (!penaltyDates[participant][dateStr]) {
+      return null; // No penalty on this date
+    }
+    
+    const weekKey = getWeekKey(dateStr);
+    const weekData = penaltyData[weekKey];
+    
+    if (!weekData) {
+      return null;
+    }
+    
+    return {
+      hasPenalty: true,
+      completed: weekData.compliance[participant] // Whether the penalty was completed
+    };
+  };
+  
   const renderCalendarDays = () => {
     const year = currentMonth.getFullYear();
     const month = currentMonth.getMonth();
@@ -296,20 +315,40 @@ const App = () => {
               const edjayMissed = penaltyDates.edjay[dateStr];
               const nicoleMissed = penaltyDates.nicole[dateStr];
               
+              // Get compliance status
+              const edjayStatus = getPenaltyStatusForDate(dateStr, 'edjay');
+              const nicoleStatus = getPenaltyStatusForDate(dateStr, 'nicole');
+              
               week.push(
                 <div key={`day-${dayNumber}`} className="p-1">
                   <div className={`${cardBg} rounded-md p-1 sm:p-2 shadow-sm`}>
                     <div className={`text-center mb-1 sm:mb-2 ${textColor} text-xs sm:text-base`}>{dayNumber}</div>
                     <div className="grid gap-1">
-                      <div className={`text-xs text-center rounded py-1 ${edjayMissed ? edjayFailureColor : edjaySuccessColor}`}>
+                      <div className={`text-xs text-center rounded py-1 ${edjayMissed ? edjayFailureColor : edjaySuccessColor} flex items-center justify-center`}>
                         <span className="hidden sm:inline">{challenge.participants.edjay.name}</span>
                         <span className="inline sm:hidden">E</span>
+                        {edjayStatus && (
+                          <span className="ml-1">
+                            {edjayStatus.completed ? 
+                              <CheckCircle size={10} className="text-green-300" /> : 
+                              <XCircle size={10} className="text-red-300" />
+                            }
+                          </span>
+                        )}
                       </div>
                     </div>
                     <div className="mt-1 grid gap-1">
-                      <div className={`text-xs text-center rounded py-1 ${nicoleMissed ? nicoleFailureColor : nicoleSuccessColor}`}>
+                      <div className={`text-xs text-center rounded py-1 ${nicoleMissed ? nicoleFailureColor : nicoleSuccessColor} flex items-center justify-center`}>
                         <span className="hidden sm:inline">{challenge.participants.nicole.name}</span>
                         <span className="inline sm:hidden">N</span>
+                        {nicoleStatus && (
+                          <span className="ml-1">
+                            {nicoleStatus.completed ? 
+                              <CheckCircle size={10} className="text-green-300" /> : 
+                              <XCircle size={10} className="text-red-300" />
+                            }
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
