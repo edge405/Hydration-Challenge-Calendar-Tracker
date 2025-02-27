@@ -286,7 +286,7 @@ const App = () => {
                   <div key={`day-${dayNumber}`} className="p-1">
                     <div className={`${cardBg} rounded-md p-1 sm:p-2 shadow-sm border-2 border-dashed ${borderColor}`}>
                       <div className={`text-center mb-1 sm:mb-2 ${textColor} text-xs sm:text-base`}>{dayNumber}</div>
-                      <div className="text-xs text-center italic text-gray-500 truncate">Wknd</div>
+                      <div className="text-xs text-center italic text-gray-500 truncate">Weekend</div>
                     </div>
                   </div>
                 );
