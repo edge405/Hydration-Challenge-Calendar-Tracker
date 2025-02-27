@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Sun, Moon, CheckCircle, XCircle } from 'lucide-react';
+import { Calendar, Sun, Moon, CheckCircle, XCircle, Menu } from 'lucide-react';
 
 const App = () => {
   const defaultDate = new Date(2025, 1, 1); // February 1, 2025
   const [currentMonth, setCurrentMonth] = useState(defaultDate);
   const [darkMode, setDarkMode] = useState(true);
+  const [mobileMonthsOpen, setMobileMonthsOpen] = useState(false);
   
   // Predefined penalty data with individual compliance status
   const penaltyData = {
@@ -255,22 +256,24 @@ const App = () => {
               if (weekData) {
                 week.push(
                   <div key={`day-${dayNumber}`} className="p-1">
-                    <div className={`${cardBg} rounded-md p-2 shadow-sm border-2 border-dashed ${borderColor}`}>
-                      <div className={`text-center mb-2 ${textColor}`}>{dayNumber}</div>
-                      <div className="text-xs text-center text-gray-400 mb-1">Weekend Penalty</div>
+                    <div className={`${cardBg} rounded-md p-1 sm:p-2 shadow-sm border-2 border-dashed ${borderColor}`}>
+                      <div className={`text-center mb-1 ${textColor} text-xs sm:text-base`}>{dayNumber}</div>
+                      <div className="text-xs text-center text-gray-400 mb-1 hidden sm:block">Weekend</div>
                       <div className="grid grid-cols-2 gap-1">
                         <div className="flex flex-col items-center">
-                          <div className="text-xs">{challenge.participants.edjay.name}</div>
+                          <div className="text-xs hidden sm:block">{challenge.participants.edjay.name}</div>
+                          <div className="text-xs block sm:hidden">E</div>
                           {weekData.compliance.edjay ? 
-                            <CheckCircle size={16} className="text-green-500 mt-1" /> : 
-                            <XCircle size={16} className="text-red-500 mt-1" />
+                            <CheckCircle size={12} className="text-green-500 mt-1" /> : 
+                            <XCircle size={12} className="text-red-500 mt-1" />
                           }
                         </div>
                         <div className="flex flex-col items-center">
-                          <div className="text-xs">{challenge.participants.nicole.name}</div>
+                          <div className="text-xs hidden sm:block">{challenge.participants.nicole.name}</div>
+                          <div className="text-xs block sm:hidden">N</div>
                           {weekData.compliance.nicole ? 
-                            <CheckCircle size={16} className="text-green-500 mt-1" /> : 
-                            <XCircle size={16} className="text-red-500 mt-1" />
+                            <CheckCircle size={12} className="text-green-500 mt-1" /> : 
+                            <XCircle size={12} className="text-red-500 mt-1" />
                           }
                         </div>
                       </div>
@@ -281,9 +284,9 @@ const App = () => {
                 // Weekend with no penalties due
                 week.push(
                   <div key={`day-${dayNumber}`} className="p-1">
-                    <div className={`${cardBg} rounded-md p-2 shadow-sm border-2 border-dashed ${borderColor}`}>
-                      <div className={`text-center mb-2 ${textColor}`}>{dayNumber}</div>
-                      <div className="text-xs text-center italic text-gray-500">Weekend</div>
+                    <div className={`${cardBg} rounded-md p-1 sm:p-2 shadow-sm border-2 border-dashed ${borderColor}`}>
+                      <div className={`text-center mb-1 sm:mb-2 ${textColor} text-xs sm:text-base`}>{dayNumber}</div>
+                      <div className="text-xs text-center italic text-gray-500 truncate">Wknd</div>
                     </div>
                   </div>
                 );
@@ -295,16 +298,18 @@ const App = () => {
               
               week.push(
                 <div key={`day-${dayNumber}`} className="p-1">
-                  <div className={`${cardBg} rounded-md p-2 shadow-sm`}>
-                    <div className={`text-center mb-2 ${textColor}`}>{dayNumber}</div>
+                  <div className={`${cardBg} rounded-md p-1 sm:p-2 shadow-sm`}>
+                    <div className={`text-center mb-1 sm:mb-2 ${textColor} text-xs sm:text-base`}>{dayNumber}</div>
                     <div className="grid gap-1">
                       <div className={`text-xs text-center rounded py-1 ${edjayMissed ? edjayFailureColor : edjaySuccessColor}`}>
-                        {challenge.participants.edjay.name}
+                        <span className="hidden sm:inline">{challenge.participants.edjay.name}</span>
+                        <span className="inline sm:hidden">E</span>
                       </div>
                     </div>
                     <div className="mt-1 grid gap-1">
                       <div className={`text-xs text-center rounded py-1 ${nicoleMissed ? nicoleFailureColor : nicoleSuccessColor}`}>
-                        {challenge.participants.nicole.name}
+                        <span className="hidden sm:inline">{challenge.participants.nicole.name}</span>
+                        <span className="inline sm:hidden">N</span>
                       </div>
                     </div>
                   </div>
@@ -315,9 +320,9 @@ const App = () => {
             // Date is outside the challenge period
             week.push(
               <div key={`day-${dayNumber}`} className="p-1">
-                <div className={`${inactiveBg} rounded-md p-2 opacity-50`}>
-                  <div className={`text-center mb-2 ${textColor}`}>{dayNumber}</div>
-                  <div className="h-12"></div>
+                <div className={`${inactiveBg} rounded-md p-1 sm:p-2 opacity-50`}>
+                  <div className={`text-center mb-1 sm:mb-2 ${textColor} text-xs sm:text-base`}>{dayNumber}</div>
+                  <div className="h-8 sm:h-12"></div>
                 </div>
               </div>
             );
@@ -356,10 +361,10 @@ const App = () => {
 
   return (
     <div className={`${bgColor} ${textColor} min-h-screen w-full transition-colors duration-200`}>
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-4xl font-bold w-full text-center mb-5">
-            HYDRATION CHALLENGE TRACKER
+      <div className="container mx-auto px-2 sm:px-4 py-3 sm:py-6">
+        <div className="flex justify-between items-center mb-4 sm:mb-6">
+          <h1 className="text-xl sm:text-4xl font-bold w-full text-center mb-2 sm:mb-5">
+            HYDRATION CHALLENGE
           </h1>
           <button 
             onClick={() => setDarkMode(!darkMode)} 
@@ -370,8 +375,36 @@ const App = () => {
           </button>
         </div>
         
-        {/* Month Navigation */}
-        <div className="flex justify-center mb-8 gap-2 flex-wrap">
+        {/* Month Navigation - Mobile Dropdown */}
+        <div className="md:hidden mb-4 relative">
+          <button 
+            onClick={() => setMobileMonthsOpen(!mobileMonthsOpen)} 
+            className={`flex items-center justify-between w-full px-4 py-2 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-md shadow`}
+          >
+            <span>{months[currentMonth.getMonth()]} {currentMonth.getFullYear()}</span>
+            <Menu size={18} />
+          </button>
+          
+          {mobileMonthsOpen && (
+            <div className={`absolute top-full left-0 right-0 mt-1 z-10 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-md shadow-lg`}>
+              {[0, 1, 2, 3, 4, 5, 6, 7].map((monthOffset) => (
+                <button 
+                  key={monthOffset}
+                  onClick={() => {
+                    setCurrentMonth(new Date(2025, monthOffset, 1));
+                    setMobileMonthsOpen(false);
+                  }}
+                  className={`block w-full text-left px-4 py-2 ${currentMonth.getMonth() === monthOffset ? 'bg-yellow-500 text-black' : ''}`}
+                >
+                  {months[monthOffset]} 2025
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        {/* Month Navigation - Desktop */}
+        <div className="hidden md:flex justify-center mb-8 gap-2 flex-wrap">
           {[0, 1, 2, 3, 4, 5, 6, 7].map((monthOffset) => {
             const monthDate = new Date(2025, monthOffset, 1);
             const isCurrentMonth = monthDate.getMonth() === currentMonth.getMonth();
@@ -388,89 +421,89 @@ const App = () => {
           })}
         </div>
         
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="md:col-span-2">
-            {/* Month Display */}
-            <div className="flex justify-between items-center mb-4">
+        <div className="grid md:grid-cols-3 gap-4 sm:gap-6">
+          <div className="md:col-span-2 order-2 md:order-1">
+            {/* Month Display - Desktop */}
+            <div className="hidden md:flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold">
                 {months[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </h2>
             </div>
             
             {/* Days of Week */}
-            <div className="grid grid-cols-7 gap-1 mb-2 text-center">
+            <div className="grid grid-cols-7 gap-1 mb-2 text-center text-xs sm:text-base">
               {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
                 <div key={index} className="font-bold">{day}</div>
               ))}
             </div>
             
             {/* Calendar Grid */}
-            <div className="mb-6">
+            <div className="mb-4 sm:mb-6">
               {renderCalendarDays()}
             </div>
             
             {/* Color Legend */}
-            <div className={`${cardBg} rounded-lg p-4 shadow-md mb-6`}>
-              <h3 className="text-lg font-bold mb-2">Legend:</h3>
-              <div className="grid grid-cols-2 gap-y-2">
+            <div className={`${cardBg} rounded-lg p-3 sm:p-4 shadow-md mb-4 sm:mb-6`}>
+              <h3 className="text-base sm:text-lg font-bold mb-2">Legend:</h3>
+              <div className="grid grid-cols-2 gap-y-2 text-xs sm:text-sm">
                 <div className="flex items-center gap-2">
-                  <div className={`w-4 h-4 rounded ${edjaySuccessColor}`}></div>
+                  <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded ${edjaySuccessColor}`}></div>
                   <span>Target Achieved</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className={`w-4 h-4 rounded ${edjayFailureColor}`}></div>
+                  <div className={`w-3 h-3 sm:w-4 sm:h-4 rounded ${edjayFailureColor}`}></div>
                   <span>Target Missed</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <CheckCircle size={16} className="text-green-500" />
+                  <CheckCircle size={14} className="text-green-500" />
                   <span>Penalty Completed</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <XCircle size={16} className="text-red-500" />
+                  <XCircle size={14} className="text-red-500" />
                   <span>Penalty Not Completed</span>
                 </div>
                 <div className="flex items-center gap-2 col-span-2">
-                  <div className="w-4 h-4 border-2 border-dashed border-gray-400 rounded"></div>
+                  <div className="w-3 h-3 sm:w-4 sm:h-4 border-2 border-dashed border-gray-400 rounded"></div>
                   <span>Weekend (Penalties due)</span>
                 </div>
               </div>
             </div>
           </div>
           
-          <div className="space-y-6">
+          <div className="space-y-4 sm:space-y-6 order-1 md:order-2">
             {/* Penalty Counter */}
-            <div className={`${cardBg} rounded-lg p-4 shadow-md`}>
-              <h2 className="text-center text-xl font-bold mb-4">Monthly Penalty Counter</h2>
-              <div className="grid grid-cols-3 gap-4 text-center mb-4">
+            <div className={`${cardBg} rounded-lg p-3 sm:p-4 shadow-md`}>
+              <h2 className="text-center text-lg sm:text-xl font-bold mb-3 sm:mb-4">Monthly Penalty Counter</h2>
+              <div className="grid grid-cols-3 gap-2 sm:gap-4 text-center mb-3 sm:mb-4">
                 <div>
-                  <h3>{challenge.participants.edjay.name}</h3>
-                  <div className="text-2xl font-bold text-yellow-500">{monthlyPenalties.edjay}</div>
+                  <h3 className="text-sm sm:text-base">{challenge.participants.edjay.name}</h3>
+                  <div className="text-xl sm:text-2xl font-bold text-yellow-500">{monthlyPenalties.edjay}</div>
                 </div>
                 <div>
-                  <h3>{challenge.participants.nicole.name}</h3>
-                  <div className="text-2xl font-bold text-yellow-500">{monthlyPenalties.nicole}</div>
+                  <h3 className="text-sm sm:text-base">{challenge.participants.nicole.name}</h3>
+                  <div className="text-xl sm:text-2xl font-bold text-yellow-500">{monthlyPenalties.nicole}</div>
                 </div>
                 <div>
-                  <h3>Total</h3>
-                  <div className="text-2xl font-bold text-yellow-500">{monthlyPenalties.edjay + monthlyPenalties.nicole}</div>
+                  <h3 className="text-sm sm:text-base">Total</h3>
+                  <div className="text-xl sm:text-2xl font-bold text-yellow-500">{monthlyPenalties.edjay + monthlyPenalties.nicole}</div>
                 </div>
               </div>
-              <div className="text-center p-3 rounded-lg bg-opacity-25 bg-yellow-500">
+              <div className="text-center p-2 sm:p-3 rounded-lg bg-opacity-25 bg-yellow-500 text-sm sm:text-base">
                 <p>Monthly Penalty</p>
-                <p className="text-2xl font-bold">{getMonetaryPenalty(currentMonth.getMonth())} Pesos/Missed Day</p>
+                <p className="text-xl sm:text-2xl font-bold">{getMonetaryPenalty(currentMonth.getMonth())} Pesos/Missed Day</p>
               </div>
               {calculateOwedAmount() > 0 && (
-                <div className="mt-3 text-center p-3 rounded-lg bg-opacity-25 bg-red-500">
+                <div className="mt-2 sm:mt-3 text-center p-2 sm:p-3 rounded-lg bg-opacity-25 bg-red-500 text-sm sm:text-base">
                   <p>Amount Owed (Uncompleted Penalties)</p>
-                  <p className="text-2xl font-bold">{calculateOwedAmount()} Pesos</p>
+                  <p className="text-xl sm:text-2xl font-bold">{calculateOwedAmount()} Pesos</p>
                 </div>
               )}
             </div>
             
             {/* Weekly Summary */}
-            <div className={`${cardBg} rounded-lg p-4 shadow-md`}>
-              <h3 className="text-xl font-bold mb-3">Weekly Summaries</h3>
-              <div className="space-y-3">
+            <div className={`${cardBg} rounded-lg p-3 sm:p-4 shadow-md`}>
+              <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Weekly Summaries</h3>
+              <div className="space-y-2 sm:space-y-3">
                 {getWeeklySummary().length > 0 ? (
                   getWeeklySummary().map(([weekKey, data]) => {
                     // Get start/end dates of the week
@@ -489,19 +522,19 @@ const App = () => {
                     if (noneCompleted) bgColor = 'bg-red-500 bg-opacity-20';
                     
                     return (
-                      <div key={weekKey} className={`p-3 rounded-lg ${bgColor}`}>
+                      <div key={weekKey} className={`p-2 sm:p-3 rounded-lg ${bgColor}`}>
                         <div className="flex justify-between items-center mb-1">
-                          <h4 className="font-bold">{startStr} - {endStr}</h4>
+                          <h4 className="font-bold text-sm sm:text-base">{startStr} - {endStr}</h4>
                         </div>
-                        <p className="text-sm opacity-80">{data.description}</p>
+                        <p className="text-xs sm:text-sm opacity-80">{data.description}</p>
                         <div className="mt-2 grid grid-cols-2 gap-2">
                           <div className="flex items-center justify-between">
                             <span className="text-xs font-semibold">{challenge.participants.edjay.name}:</span>
                             <div className="flex items-center">
                               <span className="text-xs mr-1">{data.penalties.edjay.length} penalties</span>
                               {data.compliance.edjay ? 
-                                <CheckCircle size={16} className="text-green-500" /> : 
-                                <XCircle size={16} className="text-red-500" />
+                                <CheckCircle size={14} className="text-green-500" /> : 
+                                <XCircle size={14} className="text-red-500" />
                               }
                             </div>
                           </div>
@@ -510,8 +543,8 @@ const App = () => {
                             <div className="flex items-center">
                               <span className="text-xs mr-1">{data.penalties.nicole.length} penalties</span>
                               {data.compliance.nicole ? 
-                                <CheckCircle size={16} className="text-green-500" /> : 
-                                <XCircle size={16} className="text-red-500" />
+                                <CheckCircle size={14} className="text-green-500" /> : 
+                                <XCircle size={14} className="text-red-500" />
                               }
                             </div>
                           </div>
@@ -520,23 +553,27 @@ const App = () => {
                     );
                   })
                 ) : (
-                  <div className="text-center p-4 text-gray-400">No penalty data for this month</div>
+                  <div className="text-center p-4 text-gray-400 text-sm">No penalty data for this month</div>
                 )}
               </div>
             </div>
             
-            {/* Rules */}
-            <div className={`${cardBg} rounded-lg p-4 shadow-md`}>
-              <h3 className="text-xl font-bold mb-3">Rules:</h3>
-              <ol className="list-decimal pl-5 space-y-2 text-sm">
-                <li>Edjay needs to drink 4L of water daily.</li>
-                <li>Nicole needs to drink 3L of water daily.</li>
-                <li>Participants must report their water intake at the end of each day via video or picture.</li>
-                <li>Penalty for missing water target: {getPenaltyAmount(currentMonth.getMonth())}km jog/walk on weekend.</li>
-                <li>Failure to complete exercise: {getMonetaryPenalty(currentMonth.getMonth())} pesos per missed day.</li>
-                <li>Challenge runs from January 20, 2025 to August 31, 2025.</li>
-                <li>Penalty enforcement begins February 3, 2025.</li>
-              </ol>
+            {/* Rules - Collapsible on mobile */}
+            <div className={`${cardBg} rounded-lg p-3 sm:p-4 shadow-md`}>
+              <details className="md:block">
+                <summary className="text-lg sm:text-xl font-bold mb-1 sm:mb-3 cursor-pointer md:cursor-auto md:list-none">
+                  Rules:
+                </summary>
+                <ol className="list-decimal pl-4 sm:pl-5 space-y-1 sm:space-y-2 text-xs sm:text-sm mt-2">
+                  <li>Edjay needs to drink 4L of water daily.</li>
+                  <li>Nicole needs to drink 3L of water daily.</li>
+                  <li>Participants must report their water intake at the end of each day via video or picture.</li>
+                  <li>Penalty for missing water target: {getPenaltyAmount(currentMonth.getMonth())}km jog/walk on weekend.</li>
+                  <li>Failure to complete exercise: {getMonetaryPenalty(currentMonth.getMonth())} pesos per missed day.</li>
+                  <li>Challenge runs from January 20, 2025 to August 31, 2025.</li>
+                  <li>Penalty enforcement begins February 3, 2025.</li>
+                </ol>
+              </details>
             </div>
           </div>
         </div>
