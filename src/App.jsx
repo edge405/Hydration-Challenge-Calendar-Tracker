@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Calendar, Sun, Moon, CheckCircle, XCircle } from 'lucide-react';
 
 const App = () => {
-  const defaultDate = new Date(2025, 0, 20); // January 20, 2025
+  const defaultDate = new Date(2025, 1, 1); // February 1, 2025
   const [currentMonth, setCurrentMonth] = useState(defaultDate);
   const [darkMode, setDarkMode] = useState(true);
   
@@ -358,7 +358,7 @@ const App = () => {
     <div className={`${bgColor} ${textColor} min-h-screen w-full transition-colors duration-200`}>
       <div className="container mx-auto px-4 py-6">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">
+          <h1 className="text-4xl font-bold w-full text-center mb-5">
             HYDRATION CHALLENGE TRACKER
           </h1>
           <button 
