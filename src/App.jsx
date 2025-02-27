@@ -558,13 +558,27 @@ const App = () => {
               </div>
             </div>
             
-            {/* Rules - Collapsible on mobile */}
+            {/* Rules - Collapsible on mobile, always open on desktop */}
             <div className={`${cardBg} rounded-lg p-3 sm:p-4 shadow-md`}>
-              <details className="md:block">
-                <summary className="text-lg sm:text-xl font-bold mb-1 sm:mb-3 cursor-pointer md:cursor-auto md:list-none">
-                  Rules:
-                </summary>
-                <ol className="list-decimal pl-4 sm:pl-5 space-y-1 sm:space-y-2 text-xs sm:text-sm mt-2">
+              <div className="block md:hidden">
+                <details>
+                  <summary className="text-lg font-bold mb-1 cursor-pointer">
+                    Rules:
+                  </summary>
+                  <ol className="list-decimal pl-4 space-y-1 text-xs mt-2">
+                    <li>Edjay needs to drink 4L of water daily.</li>
+                    <li>Nicole needs to drink 3L of water daily.</li>
+                    <li>Participants must report their water intake at the end of each day via video or picture.</li>
+                    <li>Penalty for missing water target: {getPenaltyAmount(currentMonth.getMonth())}km jog/walk on weekend.</li>
+                    <li>Failure to complete exercise: {getMonetaryPenalty(currentMonth.getMonth())} pesos per missed day.</li>
+                    <li>Challenge runs from January 20, 2025 to August 31, 2025.</li>
+                    <li>Penalty enforcement begins February 3, 2025.</li>
+                  </ol>
+                </details>
+              </div>
+              <div className="hidden md:block">
+                <h3 className="text-xl font-bold mb-3">Rules:</h3>
+                <ol className="list-decimal pl-5 space-y-2 text-sm">
                   <li>Edjay needs to drink 4L of water daily.</li>
                   <li>Nicole needs to drink 3L of water daily.</li>
                   <li>Participants must report their water intake at the end of each day via video or picture.</li>
@@ -573,7 +587,7 @@ const App = () => {
                   <li>Challenge runs from January 20, 2025 to August 31, 2025.</li>
                   <li>Penalty enforcement begins February 3, 2025.</li>
                 </ol>
-              </details>
+              </div>
             </div>
           </div>
         </div>
