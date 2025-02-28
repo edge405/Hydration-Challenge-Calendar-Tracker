@@ -407,7 +407,7 @@ const App = () => {
           </h1>
           <button 
             onClick={() => setDarkMode(!darkMode)} 
-            className={`p-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'}`}
+            className={`p-2 rounded-full ${darkMode ? 'bg-gray-700' : 'bg-gray-200'} `}
             aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
           >
             {darkMode ? <Sun size={20} /> : <Moon size={20} />}
