@@ -41,6 +41,17 @@ const App = () => {
         nicole: true
       },
       description: "Both completed their penalties"
+    },
+    'week-2025-02-24': {
+      penalties: {
+        edjay: ['2025-02-24', '2025-02-25', '2025-02-26', '2025-02-27', '2025-02-28'],
+        nicole: ['2025-02-25', '2025-02-26', '2025-02-27', '2025-02-28']
+      },
+      compliance: {
+        edjay: true,
+        nicole: true
+      },
+      description: "Both completed their penalties"
     }
   };
   
@@ -326,7 +337,7 @@ const App = () => {
                     <div className="grid gap-1">
                       <div className={`text-xs text-center rounded py-1 ${edjayMissed ? edjayFailureColor : edjaySuccessColor} flex items-center justify-center`}>
                         <span className="hidden sm:inline">{challenge.participants.edjay.name}</span>
-                        <span className="inline sm:hidden">E</span>
+                        <span className="inline sm:hidden">Ej</span>
                         {edjayStatus && (
                           <span className="ml-1">
                             {edjayStatus.completed ? 
@@ -340,7 +351,7 @@ const App = () => {
                     <div className="mt-1 grid gap-1">
                       <div className={`text-xs text-center rounded py-1 ${nicoleMissed ? nicoleFailureColor : nicoleSuccessColor} flex items-center justify-center`}>
                         <span className="hidden sm:inline">{challenge.participants.nicole.name}</span>
-                        <span className="inline sm:hidden">N</span>
+                        <span className="inline sm:hidden">Nic</span>
                         {nicoleStatus && (
                           <span className="ml-1">
                             {nicoleStatus.completed ? 
@@ -471,7 +482,7 @@ const App = () => {
             
             {/* Days of Week */}
             <div className="grid grid-cols-7 gap-1 mb-2 text-center text-xs sm:text-base">
-              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+              {["S", "M", "T", "W", "Th", "F", "S"].map((day, index) => (
                 <div key={index} className="font-bold">{day}</div>
               ))}
             </div>
@@ -542,58 +553,60 @@ const App = () => {
             {/* Weekly Summary */}
             <div className={`${cardBg} rounded-lg p-3 sm:p-4 shadow-md`}>
               <h3 className="text-lg sm:text-xl font-bold mb-2 sm:mb-3">Weekly Summaries</h3>
-              <div className="space-y-2 sm:space-y-3">
-                {getWeeklySummary().length > 0 ? (
-                  getWeeklySummary().map(([weekKey, data]) => {
-                    // Get start/end dates of the week
-                    const weekStart = new Date(weekKey.replace('week-', ''));
-                    const weekEnd = new Date(weekStart);
-                    weekEnd.setDate(weekEnd.getDate() + 4); // Show Monday-Friday
-                    
-                    const startStr = `${weekStart.getDate()} ${months[weekStart.getMonth()]}`;
-                    const endStr = `${weekEnd.getDate()} ${months[weekEnd.getMonth()]}`;
-                    
-                    const bothCompleted = data.compliance.edjay && data.compliance.nicole;
-                    const noneCompleted = !data.compliance.edjay && !data.compliance.nicole;
-                    
-                    let bgColor = 'bg-yellow-600 bg-opacity-20'; // Mixed compliance
-                    if (bothCompleted) bgColor = 'bg-green-500 bg-opacity-20';
-                    if (noneCompleted) bgColor = 'bg-red-500 bg-opacity-20';
-                    
-                    return (
-                      <div key={weekKey} className={`p-2 sm:p-3 rounded-lg ${bgColor}`}>
-                        <div className="flex justify-between items-center mb-1">
-                          <h4 className="font-bold text-sm sm:text-base">{startStr} - {endStr}</h4>
-                        </div>
-                        <p className="text-xs sm:text-sm opacity-80">{data.description}</p>
-                        <div className="mt-2 grid grid-cols-2 gap-2">
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold">{challenge.participants.edjay.name}:</span>
-                            <div className="flex items-center">
-                              <span className="text-xs mr-1">{data.penalties.edjay.length} penalties</span>
-                              {data.compliance.edjay ? 
-                                <CheckCircle size={14} className="text-green-500" /> : 
-                                <XCircle size={14} className="text-red-500" />
-                              }
+              <div className="max-h-64 overflow-y-auto pr-1">
+                <div className="space-y-2 sm:space-y-3">
+                  {getWeeklySummary().length > 0 ? (
+                    getWeeklySummary().map(([weekKey, data]) => {
+                      // Get start/end dates of the week
+                      const weekStart = new Date(weekKey.replace('week-', ''));
+                      const weekEnd = new Date(weekStart);
+                      weekEnd.setDate(weekEnd.getDate() + 4); // Show Monday-Friday
+                      
+                      const startStr = `${weekStart.getDate()} ${months[weekStart.getMonth()]}`;
+                      const endStr = `${weekEnd.getDate()} ${months[weekEnd.getMonth()]}`;
+                      
+                      const bothCompleted = data.compliance.edjay && data.compliance.nicole;
+                      const noneCompleted = !data.compliance.edjay && !data.compliance.nicole;
+                      
+                      let bgColor = 'bg-yellow-600 bg-opacity-20'; // Mixed compliance
+                      if (bothCompleted) bgColor = 'bg-green-500 bg-opacity-20';
+                      if (noneCompleted) bgColor = 'bg-red-500 bg-opacity-20';
+                      
+                      return (
+                        <div key={weekKey} className={`p-2 sm:p-3 rounded-lg ${bgColor}`}>
+                          <div className="flex justify-between items-center mb-1">
+                            <h4 className="font-bold text-sm sm:text-base">{startStr} - {endStr}</h4>
+                          </div>
+                          <p className="text-xs sm:text-sm opacity-80 truncate">{data.description}</p>
+                          <div className="mt-2 grid grid-cols-2 gap-2">
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-semibold">{challenge.participants.edjay.name}:</span>
+                              <div className="flex items-center">
+                                <span className="text-xs mr-1">{data.penalties.edjay.length} penalties</span>
+                                {data.compliance.edjay ? 
+                                  <CheckCircle size={14} className="text-green-500" /> : 
+                                  <XCircle size={14} className="text-red-500" />
+                                }
+                              </div>
+                            </div>
+                            <div className="flex items-center justify-between">
+                              <span className="text-xs font-semibold">{challenge.participants.nicole.name}:</span>
+                              <div className="flex items-center">
+                                <span className="text-xs mr-1">{data.penalties.nicole.length} penalties</span>
+                                {data.compliance.nicole ? 
+                                  <CheckCircle size={14} className="text-green-500" /> : 
+                                  <XCircle size={14} className="text-red-500" />
+                                }
+                              </div>
                             </div>
                           </div>
-                          <div className="flex items-center justify-between">
-                            <span className="text-xs font-semibold">{challenge.participants.nicole.name}:</span>
-                            <div className="flex items-center">
-                              <span className="text-xs mr-1">{data.penalties.nicole.length} penalties</span>
-                              {data.compliance.nicole ? 
-                                <CheckCircle size={14} className="text-green-500" /> : 
-                                <XCircle size={14} className="text-red-500" />
-                              }
-                            </div>
-                          </div>
                         </div>
-                      </div>
-                    );
-                  })
-                ) : (
-                  <div className="text-center p-4 text-gray-400 text-sm">No penalty data for this month</div>
-                )}
+                      );
+                    })
+                  ) : (
+                    <div className="text-center p-4 text-gray-400 text-sm">No penalty data for this month</div>
+                  )}
+                </div>
               </div>
             </div>
             
