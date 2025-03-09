@@ -42,10 +42,21 @@ const App = () => {
       },
       description: "Both completed their penalties"
     },
-    'week-2025-02-24': {
+    'week-2025-02-24': { // Feb 24-28
       penalties: {
         edjay: ['2025-02-24', '2025-02-25', '2025-02-26', '2025-02-27', '2025-02-28'],
         nicole: ['2025-02-25', '2025-02-26', '2025-02-27', '2025-02-28']
+      },
+      compliance: {
+        edjay: true,
+        nicole: true
+      },
+      description: "Both completed their penalties"
+    },
+    'week-2025-03-03': { // Mar 3-7
+      penalties: {
+        edjay: ['2025-03-03', '2025-03-06', '2025-03-07'],
+        nicole: ['2025-03-03', '2025-03-04', '2025-03-05', '2025-03-06', '2025-03-07']
       },
       compliance: {
         edjay: true,
