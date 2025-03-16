@@ -63,7 +63,18 @@ const App = () => {
         nicole: true
       },
       description: "Both completed their penalties"
-    }
+    },
+    'week-2025-03-10': { // Mar 10-14
+      penalties: {
+        edjay: ['2025-03-11', '2025-03-14'],
+        nicole: ['2025-03-13', '2025-03-14']
+      },
+      compliance: {
+        edjay: false,
+        nicole: true
+      },
+      description: "Nicole complied with her penalties, but Edjay did not fulfill his"
+    },
   };
   
   // Flatten penalty dates for calendar display
@@ -229,7 +240,7 @@ const App = () => {
     const monthPrefix = `${year}-${month.toString().padStart(2, '0')}`;
     
     // Filter to only show current month's weeks
-    const currentMonthWeeks = Object.entries(penaltyData).filter(([weekKey, data]) => {
+    const currentMonthWeeks = Object.entries(penaltyData).filter(([ ,data]) => {
       // Check if any penalty date in this week belongs to current month
       for (const participant in data.penalties) {
         for (const date of data.penalties[participant]) {
