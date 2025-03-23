@@ -75,6 +75,17 @@ const App = () => {
       },
       description: "Nicole complied with her penalties, but Edjay did not fulfill his"
     },
+    'week-2025-03-17': { // Mar 10-14
+      penalties: {
+        edjay: ['2025-03-17', '2025-03-18', '2025-03-19'],
+        nicole: ['2025-03-17', '2025-03-18', '2025-03-19', '2025-03-20', '2025-03-21']
+      },
+      compliance: {
+        edjay: false,
+        nicole: false
+      },
+      description: "Neither completed their penalties"
+    },
   };
   
   // Flatten penalty dates for calendar display
