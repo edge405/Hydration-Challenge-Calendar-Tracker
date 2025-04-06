@@ -97,6 +97,17 @@ const App = () => {
       },
       description: "Neither completed their penalties"
     },
+    'week-2025-03-31': { // Mar 31 - Apr 4
+      penalties: {
+        edjay: ['2025-03-31', '2025-04-01', '2025-04-02', '2025-04-03', '2025-04-04'],
+        nicole: ['2025-03-31', '2025-04-01', '2025-04-02', '2025-04-03', '2025-04-04']
+      },
+      compliance: {
+        edjay: false,
+        nicole: false
+      },
+      description: "Neither completed their penalties"
+    },
   };
   
   // Flatten penalty dates for calendar display
