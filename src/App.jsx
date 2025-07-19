@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Sun, Moon, CheckCircle, XCircle, Menu } from "lucide-react";
 
 const App = () => {
-  const defaultDate = new Date(2025, 2, 1); // February 1, 2025
+  const defaultDate = new Date(2025, 6, 1); // July 1, 2025
   const [currentMonth, setCurrentMonth] = useState(defaultDate);
   const [darkMode, setDarkMode] = useState(true);
   const [mobileMonthsOpen, setMobileMonthsOpen] = useState(false);
