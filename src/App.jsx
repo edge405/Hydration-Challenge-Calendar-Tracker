@@ -538,6 +538,18 @@ const App = () => {
       },
       description: "Nicole did not complete her penalties",
     },
+    "week-2025-07-28": {
+      // Jul 28 - Aug 1
+      penalties: {
+        edjay: ["2025-07-29", "2025-07-30", "2025-07-31"],
+        nicole: ["2025-07-28", "2025-07-29"],
+      },
+      compliance: {
+        edjay: false,
+        nicole: false,
+      },
+      description: "Neither completed their penalties",
+    },
   };
 
   // Flatten penalty dates for calendar display
